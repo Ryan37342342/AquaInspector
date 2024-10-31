@@ -1,0 +1,6 @@
+@AquaInspector_HostAddress = http://localhost:5157
+
+GET {{AquaInspector_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
