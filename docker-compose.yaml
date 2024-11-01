@@ -1,9 +1,12 @@
+name: AquaInspector
+
 services:
   db:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: db_service_postgres
     env_file:
-      - db.env
+      - path: ./db.env
+       
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -15,7 +18,7 @@ services:
 
   api:
     build:
-      context: ./api
+      context: ./APIs
     container_name: api_service
     ports:
       - "5000:80"

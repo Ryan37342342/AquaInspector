@@ -9,8 +9,8 @@ WORKDIR /src
 COPY . .
 
 # Build the API
-RUN dotnet restore "APIs/AquaInspector.csproj"
-RUN dotnet publish "APIs/AquaInspector.csproj" -c Release -o /app/publish
+RUN dotnet restore "AquaInspector.csproj"
+RUN dotnet publish "AquaInspector.csproj" -c Release -o /app/publish
 
 # Run the application
 FROM base AS final
