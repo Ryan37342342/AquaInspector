@@ -30,7 +30,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// create scope and DB worker
+using (var scope = app.Services.CreateScope()) {
+    Console.Out.WriteLine("testing db connection ... ");
+    var dbContext = scope.ServiceProvider.GetRequiredService<AdminDbWorker>();
+    // check the database connection
+    if(!dbContext.Database.CanConnect()){
+        throw new Exception("Failure to connect to Db...");
+    }
+    // db connection must have been successfully 
+    else
+    {
+         Console.Out.WriteLine("DB Connection Test Passed!!");
+    }
+}
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
