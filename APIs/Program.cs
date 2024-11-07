@@ -1,6 +1,7 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using AquaInspector.Data;
+using AquaInspector.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +20,11 @@ var connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" 
                        $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
                        $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
 
+// add database context object 
 builder.Services.AddDbContext<AdminDbWorker>(options =>
     options.UseNpgsql(connectionString));
+// add services 
+builder.Services.AddScoped<ITemperatureService, TemperatureService>();
 
 var app = builder.Build();
 

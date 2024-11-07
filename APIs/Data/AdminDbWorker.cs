@@ -1,6 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using AquaInspector.Models;
+
+
 namespace AquaInspector.Data
 {
+    /// <summary>
+    /// A DB Context Class to handle DB Connection
+    /// </summary>
     public class AdminDbWorker:DbContext 
     {
         // Constructor to support dependency injection
@@ -8,6 +14,9 @@ namespace AquaInspector.Data
         {
         
         }
+
+        // create the Tem
+        public DbSet<TemperatureReading> TemperatureReadings { get; set; }
 
     }
 }
