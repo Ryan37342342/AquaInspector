@@ -20,12 +20,17 @@ services:
     build:
       context: ./APIs
     container_name: api_service
+    depends_on:
+      - db
     ports:
       - "5000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${DB_NAME};Username={$DB_NAME};Password={DB_PASSWORD}
-    depends_on:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - db
 
 volumes:

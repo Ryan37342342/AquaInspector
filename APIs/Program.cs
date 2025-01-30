@@ -20,6 +20,7 @@ var connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" 
                        $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
                        $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
 
+
 // add database context object 
 builder.Services.AddDbContext<AdminDbWorker>(options =>
     options.UseNpgsql(connectionString));
@@ -38,14 +39,23 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope()) {
     Console.Out.WriteLine("testing db connection ... ");
     var dbContext = scope.ServiceProvider.GetRequiredService<AdminDbWorker>();
-    // check the database connection
-    if(!dbContext.Database.CanConnect()){
-        throw new Exception("Failure to connect to Db...");
+    //while less than three 
+    int attempt = 0;
+    bool CanConnect = false;
+    while(attempt<=3){
+       
+        // check the database connection
+        if(!dbContext.Database.CanConnect()){
+            CanConnect = true;
+            break;
+        } 
+        Console.Out.WriteLine($"Failed to connect on attempt {attempt}/3");
+        attempt+=1;
+        Thread.Sleep(1000);
     }
-    // db connection must have been successfully 
-    else
-    {
-         Console.Out.WriteLine("DB Connection Test Passed!!");
+    // if connection failure
+    if (!CanConnect){
+        throw new Exception("Failed to connect to DB..");
     }
 }
 app.UseHttpsRedirection();

@@ -1,23 +1,29 @@
-﻿namespace AquaInspector.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AquaInspector.Models
 {
     /// <summary>
     /// A model class to hold the temperate of the fish tank 
     /// </summary>
     public class TemperatureReading
     {
-          // ID of the Tank
-        public int TankID { get; set; }
+        [Key]
+        // ID of the reading
+        public int entryKey  { get; set; }
+        // ID of the Tank
+        public int tankNumber { get; set; }
         // the recorded temperature
-        public double Temp { get; set; }
+        public double temp { get; set; }
         // the date the temp was recorded 
-        public DateTime TimeStamp { get; set; }
+        public DateTime timeStamp { get; set; }
         public TemperatureReading(int tankId, double tankTemp, DateTime recordDate)
         {
-            TankID = tankId;
-            Temp = tankTemp;
-            TimeStamp = recordDate;
+            tankNumber = tankId;
+            temp = tankTemp;
+            timeStamp = recordDate;
         }
 
+        public TemperatureReading(){}
       
 
         
