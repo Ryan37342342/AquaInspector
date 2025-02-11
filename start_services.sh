@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 # Load environment variables from .env file
 source db.env
 
