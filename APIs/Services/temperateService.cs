@@ -33,9 +33,9 @@ namespace AquaInspector.Services
         public async Task<ServiceResult> RecordTemperature(TemperatureReading temperatureReading){
             try{
                  //Logging start
-            ServiceResult result = new ServiceResult();
-            Console.Out.WriteLine("--------------------------------------------");
-            Console.Out.WriteLine("Incoming Temp Reading....n");
+                ServiceResult result = new ServiceResult();
+                Console.Out.WriteLine("--------------------------------------------");
+                Console.Out.WriteLine("Incoming Temp Reading....n");
                 // for each property in the temperature object 
                 foreach(PropertyInfo property in typeof(TemperatureReading).GetProperties()){
                     // get the value of the current property from the reading object
@@ -71,10 +71,7 @@ namespace AquaInspector.Services
            
         }
 
-        void ITemperatureService.RecordTemperature(TemperatureReading temperatureReading)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
 
