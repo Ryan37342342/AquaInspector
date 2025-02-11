@@ -1,5 +1,7 @@
+using AquaInspector.Models;
+
 namespace AquaInspector.Services;
 
 public interface ITemperatureService{
-    public void RecordTemperature(int tankId, double tankTemp);
+    public Task<ServiceResult>RecordTemperature(TemperatureReading temperatureReading);
 }

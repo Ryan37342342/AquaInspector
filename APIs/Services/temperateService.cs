@@ -1,6 +1,8 @@
 using AquaInspector.Data;
 using AquaInspector.Models;
+using Sprache;
 using System;
+using System.Reflection;
 
 
 
@@ -28,13 +30,50 @@ namespace AquaInspector.Services
         /// </summary>
         /// <param name="tankId"></param>
         /// <param name="tankTemp"></param>
-        public void RecordTemperature(int tankId, double tankTemp){
-            // get the current datetime 
-            DateTime recordDate = DateTime.Now;
-            // create the temperature reading 
-            TemperatureReading recordedTemp = new TemperatureReading(tankId,tankTemp,recordDate);
+        public async Task<ServiceResult> RecordTemperature(TemperatureReading temperatureReading){
+            try{
+                 //Logging start
+            ServiceResult result = new ServiceResult();
+            Console.Out.WriteLine("--------------------------------------------");
+            Console.Out.WriteLine("Incoming Temp Reading....n");
+                // for each property in the temperature object 
+                foreach(PropertyInfo property in typeof(TemperatureReading).GetProperties()){
+                    // get the value of the current property from the reading object
+                    // if its null
+                    object? value = property.GetValue(temperatureReading);
+                    Console.Out.WriteLine($"{property.Name}:{value}");
+                    // check for any missing values 
+                    if (value == null){
+                        // return a bad request if any property is missing
+                       result.ErrorMessage = $"Property:{property.Name} is empty";
+                       result.StatusCode = 500;
+                       result.SuccessResult = false;
+                       return result;
+                        
+                    } 
+                }
+                Console.Out.WriteLine("--------------------------------------------");
+        
+
             // add the temperature reading to the database 
-            _DbWorker.TemperatureReadings.Add(recordedTemp);
+            _DbWorker.TemperatureReadings.Add(temperatureReading);
+            return result;
+            }
+
+            catch(Exception ex){
+                ServiceResult result = new ServiceResult();
+                result.ErrorMessage = ex.Message;
+                result.StatusCode = 500;
+                result.SuccessResult = false;
+                return result;
+            }
+        
+           
+        }
+
+        void ITemperatureService.RecordTemperature(TemperatureReading temperatureReading)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

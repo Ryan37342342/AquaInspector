@@ -16,6 +16,8 @@ namespace AquaInspector.Models
         public double temp { get; set; }
         // the date the temp was recorded 
         public DateTime timeStamp { get; set; }
+
+        //Constructor when date is known
         public TemperatureReading(int tankId, double tankTemp, DateTime recordDate)
         {
             tankNumber = tankId;
@@ -23,6 +25,15 @@ namespace AquaInspector.Models
             timeStamp = recordDate;
         }
 
+        //Constructor when date is unknown (Unsure if need yet but added anyway)
+        public TemperatureReading(int tankId, double tankTemp)
+        {
+            tankNumber = tankId;
+            temp = tankTemp;
+            timeStamp = DateTime.Now;
+        }
+
+        // empty constructor for entity
         public TemperatureReading(){}
       
 
