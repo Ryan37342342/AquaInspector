@@ -32,6 +32,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Console.Out.Write("Creating Swagger UI...");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -49,9 +50,9 @@ using (var scope = app.Services.CreateScope()) {
             CanConnect = true;
             break;
         } 
-        Console.Out.WriteLine($"Failed to connect on attempt {attempt}/3");
+        Console.Out.WriteLine($"Failed to connect on attempt {attempt}/3 at {DateTime.UtcNow}");
         attempt+=1;
-        Thread.Sleep(1000);
+        Thread.Sleep(10000);
     }
     // if connection failure
     if (!CanConnect){
