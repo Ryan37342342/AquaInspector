@@ -57,6 +57,11 @@ namespace AquaInspector.Services
 
             // add the temperature reading to the database 
             _DbWorker.TemperatureReadings.Add(temperatureReading);
+
+            // construct a success response
+            result.SuccessResult=true;
+            result.StatusCode=200;
+            result.ErrorMessage="successfully added reading to db";
             return result;
             }
 
