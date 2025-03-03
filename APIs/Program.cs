@@ -19,7 +19,7 @@ var connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" 
                        $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
                        $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
                        $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
-
+                                        
 
 // add database context object 
 builder.Services.AddDbContext<AdminDbWorker>(options =>
@@ -35,6 +35,9 @@ if (app.Environment.IsDevelopment())
     Console.Out.Write("Creating Swagger UI...");
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else{
+   // app.UseHttpsRedirection();
 }
 // create scope and DB worker
 using (var scope = app.Services.CreateScope()) {
@@ -59,7 +62,7 @@ using (var scope = app.Services.CreateScope()) {
         throw new Exception("Failed to connect to DB..");
     }
 }
-app.UseHttpsRedirection();
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
