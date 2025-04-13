@@ -4,6 +4,8 @@ using AquaInspector.Data;
 using AquaInspector.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:8080"); // Ensure API listens on all interfaces
+
 
 // Load environment variables from the .env file (useful for local development)
 Env.Load();

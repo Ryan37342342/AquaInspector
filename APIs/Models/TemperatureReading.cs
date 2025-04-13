@@ -9,28 +9,28 @@ namespace AquaInspector.Models
     {
         [Key]
         // ID of the reading
-        public int entryKey  { get; set; }
+        public int entry_key  { get; set; }
         // ID of the Tank
-        public int tankNumber { get; set; }
+        public int tank_number { get; set; }
         // the recorded temperature
         public double temp { get; set; }
         // the date the temp was recorded 
-        public DateTime timeStamp { get; set; }
+        public DateTime time_stamp { get; set; }
 
         //Constructor when date is known
         public TemperatureReading(int tankId, double tankTemp, DateTime recordDate)
         {
-            tankNumber = tankId;
+            tank_number = tankId;
             temp = tankTemp;
-            timeStamp = recordDate;
+            time_stamp = recordDate;
         }
 
         //Constructor when date is unknown (Unsure if need yet but added anyway)
         public TemperatureReading(int tankId, double tankTemp)
         {
-            tankNumber = tankId;
+            tank_number = tankId;
             temp = tankTemp;
-            timeStamp = DateTime.Now;
+            time_stamp = DateTime.Now;
         }
 
         // empty constructor for entity

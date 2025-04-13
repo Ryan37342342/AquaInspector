@@ -16,7 +16,7 @@ namespace AquaInspector.Data
         }
 
         // create the Tem
-        public DbSet<TemperatureReading> TemperatureReadings { get; set; }
+        public DbSet<TemperatureReading> temperature_readings { get; set; }
 
     }
 }

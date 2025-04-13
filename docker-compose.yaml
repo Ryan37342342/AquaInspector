@@ -1,40 +1,41 @@
-name: AquaInspector
 
 services:
+ 
   db:
     image: postgres:latest
     container_name: db_service_postgres
-    env_file:
-      - path: ./db.env
-       
     environment:
+      POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "5432:5432"
+    networks:
+      - app_network
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+      - ./db:/docker-entrypoint-initdb.d   
+    
+  
   api:
     build:
       context: ./APIs
+      dockerfile: Dockerfile
     container_name: api_service
     depends_on:
       - db
-    env_file:
-      - path: ./db.env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app_network
     ports:
       - "8080:8080"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-  
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
   postgres_data:
-    driver: local
