@@ -18,6 +18,7 @@ By using Docker and Kubernetes, the project achieves scalability and ease of man
 ## Current Progress 
 - Completed intial boiler plate for C# API and DB backend 
 - Containerized above step
+- C# API now saves data in the DB Backend for temp
 
 ## Next Steps:
  - Program Micro controller
