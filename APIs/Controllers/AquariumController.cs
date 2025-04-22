@@ -29,7 +29,7 @@ namespace AquaInspector.Controllers
           
             //catch general error
             catch(Exception ex){
-                Console.Out.WriteLine($"Result:500;;{ex.Message}");
+                Console.Out.WriteLine($"Result:500;;{ex.Message};;{ex.StackTrace}");
                 return StatusCode(500,ex.Message);
             }
         }

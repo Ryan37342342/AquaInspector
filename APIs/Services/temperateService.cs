@@ -3,6 +3,7 @@ using AquaInspector.Models;
 using Sprache;
 using System;
 using System.Reflection;
+using System.Text.Json;
 
 
 
@@ -35,7 +36,16 @@ namespace AquaInspector.Services
                  //Logging start
                 ServiceResult result = new ServiceResult();
                 Console.Out.WriteLine("--------------------------------------------");
-                Console.Out.WriteLine("Incoming Temp Reading....n");
+                Console.Out.WriteLine("Incoming Temp Reading....");
+                
+                if (temperatureReading == null)
+                {
+                    result.ErrorMessage = "temperatureReading is null";
+                    result.StatusCode = 400;
+                    result.SuccessResult = false;
+                    return result;
+                }
+
                 // for each property in the temperature object 
                 foreach(PropertyInfo property in typeof(TemperatureReading).GetProperties()){
                     // get the value of the current property from the reading object
@@ -54,7 +64,8 @@ namespace AquaInspector.Services
                 }
                 Console.Out.WriteLine("--------------------------------------------");
         
-
+            // enforce utc format for time
+            temperatureReading.time_stamp = DateTime.UtcNow;
             // add the temperature reading to the temperature_readings table in the db
             _DbWorker.temperature_readings.Add(temperatureReading);
             // save the changes to the database

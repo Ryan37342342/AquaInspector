@@ -30,7 +30,7 @@ namespace AquaInspector.Models
         {
             tank_number = tankId;
             temp = tankTemp;
-            time_stamp = DateTime.Now;
+            time_stamp = DateTime.UtcNow;
         }
 
         // empty constructor for entity
