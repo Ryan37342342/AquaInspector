@@ -28,6 +28,7 @@ builder.Services.AddDbContext<AdminDbWorker>(options =>
     options.UseNpgsql(connectionString));
 // add services 
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
+builder.Services.AddScoped<ILoggingService, LoggingService>();
 
 var app = builder.Build();
 

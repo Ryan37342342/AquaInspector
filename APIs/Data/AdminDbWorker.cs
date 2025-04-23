@@ -15,8 +15,10 @@ namespace AquaInspector.Data
         
         }
 
-        // create the Tem
+        // create the temperature reading database
         public DbSet<TemperatureReading> temperature_readings { get; set; }
 
+        // create the logging message database
+        public DbSet<LoggingMessage> logging_messages {get; set;}
     }
 }

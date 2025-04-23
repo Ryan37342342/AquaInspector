@@ -1,52 +1,40 @@
-using AquaInspector.Data;
 using AquaInspector.Models;
-using Sprache;
-using System;
+using AquaInspector.Data;
 using System.Reflection;
-using System.Text.Json;
 
-namespace AquaInspector.Services 
-{
-    /// <summary>
-    /// This is a service class to contain all functions and logic related to the temperature data
-    /// </summary>
-    public class TemperatureService : ITemperatureService{
+namespace AquaInspector.Services;
 
-        // maintain a reference to the DB Context object
-        private AdminDbWorker _DbWorker;
-        // Constructor
-        public TemperatureService(AdminDbWorker worker){
-            _DbWorker = worker;
-        }
+/// <summary>
+/// A service class to handle the logging messages sent by the microcontroller 
+/// </summary>
+public class LoggingService : ILoggingService {
+    private AdminDbWorker _DbWorker;
 
+    public LoggingService(AdminDbWorker adminDbWorker){
+        _DbWorker = adminDbWorker;
+    }
 
-        #region Database operations 
-
-        /// <summary>
-        /// A method that takes the measured temperature reading and writes it to the database 
-        /// </summary>
-        /// <param name="tankId"></param>
-        /// <param name="tankTemp"></param>
-        public async Task<ServiceResult> RecordTemperature(TemperatureReading temperatureReading){
+# region Database operations
+  public async Task<ServiceResult> RecordLoggingMessage(LoggingMessage loggingMessage){
             try{
                  //Logging start
                 ServiceResult result = new ServiceResult();
                 Console.Out.WriteLine("--------------------------------------------");
-                Console.Out.WriteLine("Incoming Temp Reading....");
+                Console.Out.WriteLine("Incoming Logging Message....");
                 
-                if (temperatureReading == null)
+                if (loggingMessage == null)
                 {
-                    result.ErrorMessage = "temperatureReading is null";
+                    result.ErrorMessage = "loggingMessage is null";
                     result.StatusCode = 400;
                     result.SuccessResult = false;
                     return result;
                 }
 
                 // for each property in the temperature object 
-                foreach(PropertyInfo property in typeof(TemperatureReading).GetProperties()){
+                foreach(PropertyInfo property in typeof(LoggingMessage).GetProperties()){
                     // get the value of the current property from the reading object
                     // if its null
-                    object? value = property.GetValue(temperatureReading);
+                    object? value = property.GetValue(loggingMessage);
                     Console.Out.WriteLine($"{property.Name}:{value}");
                     // check for any missing values 
                     if (value == null){
@@ -61,9 +49,9 @@ namespace AquaInspector.Services
                 Console.Out.WriteLine("--------------------------------------------");
         
             // enforce utc format for time
-            temperatureReading.time_stamp = DateTime.UtcNow;
+            loggingMessage.time_stamp = DateTime.UtcNow;
             // add the temperature reading to the temperature_readings table in the db
-            _DbWorker.temperature_readings.Add(temperatureReading);
+            _DbWorker.logging_messages.Add(loggingMessage);
             // save the changes to the database
             await _DbWorker.SaveChangesAsync();
             // construct a success response
@@ -83,10 +71,5 @@ namespace AquaInspector.Services
         
            
         }
-
-
-
-        #endregion
-
-    }
+# endregion
 }
