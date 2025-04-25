@@ -18,6 +18,11 @@ namespace AquaInspector.Controllers
             _loggingService = loggingService;
         }
 
+        /// <summary>
+        /// route to add a temperature to the database
+        /// </summary>
+        /// <param name="reading"> Json Temperature reading</param>
+        /// <returns></returns>
         [HttpPost("temperature-reading")]
         public async Task<IActionResult> PostTemperature([FromBody] TemperatureReading reading)
         {
@@ -37,7 +42,11 @@ namespace AquaInspector.Controllers
             }
         }
 
-
+        /// <summary>
+        /// route to add a log messge to the database
+        /// </summary>
+        /// <param name="loggingMessage"></param>
+        /// <returns></returns>
         [HttpPost("log")]
         public async Task <IActionResult> PostLog([FromBody] LoggingMessage loggingMessage){
             try{
