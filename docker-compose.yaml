@@ -13,6 +13,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d   
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+
     
   
   api:
